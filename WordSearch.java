@@ -28,6 +28,14 @@ public class WordSearch{
      *separated by newlines.
      */
     public String toString(){
+      String puzzle="";
+      for (int a =0;a<data.length;a++){
+        for (int b =0;b<data[a].length;b++){
+          puzzle+=data[a][b]+" ";
+        }
+        puzzle+="/n";
+      }
+      return puzzle;
     }
 
 
