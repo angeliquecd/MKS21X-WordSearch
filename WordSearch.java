@@ -74,6 +74,15 @@ public class WordSearch{
      *and the board is NOT modified.
      */
     public boolean addWordVertical(String word,int row, int col){
+      try{
+            for (int a=0;a<word.length();a++){
+              data[row+a][col]=word.charAt(a);
+            }
+
       return true;
+    }
+    catch (IndexOutOfBoundsException e){
+      return false;
+    }
     }
 }
