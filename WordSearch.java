@@ -9,7 +9,7 @@ public class WordSearch{
     public WordSearch(int rows,int cols){
       data = new char[rows][cols];
       for (int i =0;i<data.length;i++){
-        for (int a =0;a<data[rows].length;a++){
+        for (int a =0;a<data[i].length;a++){
           data[i][a]='_';
         }
       }
@@ -17,6 +17,10 @@ public class WordSearch{
 
     /**Set all values in the WordSearch to underscores'_'*/
     private void clear(){
+      for (int i =0;i<data.length;i++){
+        for (int a =0;a<data[i].length;a++){
+          data[i][a]='_';
+        }}
     }
 
     /**Each row is a new line, there is a space between each letter
