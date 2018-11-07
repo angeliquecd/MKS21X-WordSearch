@@ -33,7 +33,7 @@ public class WordSearch{
         for (int b =0;b<data[a].length;b++){
           puzzle+=data[a][b]+" ";
         }
-        puzzle+="/n";
+        puzzle+="\n";
       }
       return puzzle;
     }
