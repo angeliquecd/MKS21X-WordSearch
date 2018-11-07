@@ -51,16 +51,14 @@ public class WordSearch{
      * and the board is NOT modified.
      */
     public boolean addWordHorizontal(String word,int row, int col){
-      try{
+      if (col+word.length()>data[0].length) return false;
+      else{
       for (int a=0;a<word.length();a++){
         data[row][col+a]=word.charAt(a);
-
       }
-    return true;}
-      catch (IndexOutOfBoundsException e){
-        return false;
+    return true;
+  }
       }
-    }
 
    /**Attempts to add a given word to the specified position of the WordGrid.
      *The word is added from top to bottom, must fit on the WordGrid, and must
