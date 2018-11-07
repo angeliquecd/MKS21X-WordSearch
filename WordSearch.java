@@ -16,7 +16,7 @@ public class WordSearch{
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
-    private void clear(){
+    public void clear(){
       for (int i =0;i<data.length;i++){
         for (int a =0;a<data[i].length;a++){
           data[i][a]='_';
@@ -72,15 +72,12 @@ public class WordSearch{
      *and the board is NOT modified.
      */
     public boolean addWordVertical(String word,int row, int col){
-      try{
+      if (row+word.length()>data.length) return false;
             for (int a=0;a<word.length();a++){
               data[row+a][col]=word.charAt(a);
             }
 
       return true;
     }
-    catch (IndexOutOfBoundsException e){
-      return false;
-    }
-    }
+
 }
