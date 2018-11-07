@@ -73,9 +73,9 @@ public class WordSearch{
      */
     public boolean addWordVertical(String word,int row, int col){
       if (row+word.length()>data.length) return false;
-            for (int a=0;a<word.length();a++){
-              data[row+a][col]=word.charAt(a);
-            }
+      for (int a=0;a<word.length();a++){
+          data[row+a][col]=word.charAt(a);
+          }
 
       return true;
     }
