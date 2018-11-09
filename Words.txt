@@ -1,0 +1,6 @@
+beef
+chicken
+poultry
+meat
+fish
+raw
