@@ -1,12 +1,22 @@
-public class WordSearch{
-    private char[][]data;
 
+import java.util.*; //random, scanner, arraylist
+import java.io.*; //file, filenotfoundexception
+public class WordSearch{
+private char[][]data;
+    //the random seed used to produce this WordSearch
+private int seed;
+       //a random Object to unify your random calls
+private Random randgen;
+//all words from a text file get added to wordsToAdd, indicating that they have not yet been added
+private ArrayList<String>wordsToAdd;
+//all words that were successfully added get moved into wordsAdded.
+private ArrayList<String>wordsAdded;
     /**Initialize the grid to the size specified
      *and fill all of the positions with '_'
      *@param row is the starting height of the WordSearch
      *@param col is the starting width of the WordSearch
      */
-    public WordSearch(int rows,int cols){
+public WordSearch(int rows,int cols){
       data = new char[rows][cols];
       for (int i =0;i<data.length;i++){
         for (int a =0;a<data[i].length;a++){
@@ -16,7 +26,7 @@ public class WordSearch{
     }
 
     /**Set all values in the WordSearch to underscores'_'*/
-    public void clear(){
+public void clear(){
       for (int i =0;i<data.length;i++){
         for (int a =0;a<data[i].length;a++){
           data[i][a]='_';
@@ -24,10 +34,10 @@ public class WordSearch{
     }
 
     /**Each row is a new line, there is a space between each letter
-     *@return a String with each character separated by spaces, and rows
+ *@return a String with each character separated by spaces, and rows
      *separated by newlines.
      */
-    public String toString(){
+public String toString(){
       String puzzle="";
       for (int a =0;a<data.length;a++){
         for (int b =0;b<data[a].length;b++){
@@ -119,5 +129,34 @@ public class WordSearch{
 }
       return true;
     }
+    /**Attempts to add a given word to the specified position of the WordGrid.
+  *The word is added in the direction rowIncrement,colIncrement
+
+  *Words must have a corresponding letter to match any letters that it overlaps.
+
+  *
+  *@param word is any text to be added to the word grid.
+  *@param row is the vertical locaiton of where you want the word to start.
+  *@param col is the horizontal location of where you want the word to start.
+
+  *@param rowIncrement is -1,0, or 1 and represents the displacement of each letter in the row direction
+  *@param colIncrement is -1,0, or 1 and represents the displacement of each letter in the col direction
+
+  *@return true when: the word is added successfully.
+  *        false when: the word doesn't fit, OR  rowchange and colchange are both 0,
+  *        OR there are overlapping letters that do not match
+  */
+ public boolean addWord(String word,int row, int col, int rowIncrement, int colIncrement){
+   if (rowIncrement==00 && colIncrement==0) return false;
+   if (rowIncrement==1&& colIncrement==0){addWordDiagonal(word,row,col);
+   }
+ }
+
+ /*[rowIncrement,colIncrement] examples:
+
+  *[-1,1] would add up to the right because (row -1 each time, col + 1 each time)
+
+  *[ 1,0] would add down because (row+1), with no col change
+  */
 
 }
