@@ -14,14 +14,13 @@ public class WordSearch{
         String word= in.next();
         wordsToAdd.add(word);
       }
-}catch(FileNotFoundException e){
+    }catch(FileNotFoundException e){
   System.out.println("File not found: " + fileName);
   //e.printSta
   System.exit(1);
 }
 }
-    }
-    public WordSearch (int rows, int cols, String fileName, int randSeed){
+  public WordSearch (int rows, int cols, String fileName, int randSeed){
       try{
         File f = new File(fileName);//can combine
         Scanner in = new Scanner(f);//into one line
@@ -35,8 +34,23 @@ public class WordSearch{
   System.exit(1);
   }
     }
-    public String toString(){
-    }
+  public String toString(){
+      String puzzle="";
+      for (int a =0;a<data.length;a++){
+        puzzle+="|"
+        for (int b =0;b<data[a].length;b++){
+          puzzle+=data[a][b]+" ";
+        }
+        puzzle+="| \n";
+      }
+
+      puzzle+= "Words: "
+
+      while (in.hasNext()){
+        String word= in.next();
+        puzzle+=word;}
+    return puzzle;
+        }
     /**Attempts to add a given word to the specified position of the WordGrid.
      *The word is added in the direction rowIncrement,colIncrement
      *Words must have a corresponding letter to match any letters that it overlaps.
