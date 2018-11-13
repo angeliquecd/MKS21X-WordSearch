@@ -1,12 +1,14 @@
 import java.util.*;
 import java.io.*;
 public class WordSearch{
-    private char[][]data;
+    private char[][] data;
     private int seed;
     private Random randgen;
     private ArrayList<String> wordsToAdd;
     private ArrayList<String> wordsAdded;
     public WordSearch(int rows,int cols, String fileName){
+      data= new char[rows][cols];
+      randgen= new Random();
       try{
         File f = new File(fileName);//can combine
         Scanner in = new Scanner(f);//into one line
@@ -18,9 +20,12 @@ public class WordSearch{
   System.out.println("File not found: " + fileName);
   //e.printSta
   System.exit(1);
+  addAllWords();
 }
 }
   public WordSearch (int rows, int cols, String fileName, int randSeed){
+    data= new char[rows][cols];
+    seed=randSeed;
       try{
         File f = new File(fileName);//can combine
         Scanner in = new Scanner(f);//into one line
@@ -33,22 +38,20 @@ public class WordSearch{
   //e.printSta
   System.exit(1);
   }
+    addAllWords();
     }
+
   public String toString(){
       String puzzle="";
       for (int a =0;a<data.length;a++){
-        puzzle+="|"
+        puzzle+="|";
         for (int b =0;b<data[a].length;b++){
           puzzle+=data[a][b]+" ";
         }
-        puzzle+="| \n";
+        puzzle+="|\n";
       }
 
-      puzzle+= "Words: "
-
-      while (in.hasNext()){
-        String word= in.next();
-        puzzle+=word;}
+      puzzle+= "Words: "+wordsAdded;
     return puzzle;
         }
     /**Attempts to add a given word to the specified position of the WordGrid.
@@ -67,18 +70,19 @@ public class WordSearch{
     private boolean addWord(String word, int r, int c, int rowIncrement, int colIncrement){
       boolean therey= true;
       if(
-      (row+word.length()>data.length && rowIncrement>0) || (row-word.length<0 && rowIncrement<0)
-      ||(col+word.length()>data.length && colIncrement> 0) || (col-word.length<0 && colIncrement<0))
+      (r+word.length()>data.length && rowIncrement>0) || (r-word.length()<0 && rowIncrement<0)
+      ||(c+word.length()>data.length && colIncrement> 0) || (c-word.length()<0 && colIncrement<0))
       return false;
       for (int a=0;a<word.length();a++){
-          if (data[row+a*r][col+a*c]!='_'&& data[row+a*r][col+a*c]!=word.charAt(a)){
+          if (data[r+a*rowIncrement][c+a*colIncrement]!='_'&&
+          data[r+a*rowIncrement][c+a*colIncrement]!=word.charAt(a)){
             for(int b=a-1;b>-1;b-=1){
-              data[row+b*r][col+a*c]='_';
+              data[r+b*rowIncrement][c+a*colIncrement]='_';
             }
             return false;
           }
             else{
-          data[row+a*r][col+a*c]=word.charAt(a);
+          data[r+a*rowIncrement][c+a*colIncrement]=word.charAt(a);
         }
 }
       return true;
@@ -88,8 +92,24 @@ public class WordSearch{
           *[ 1,0] would add downwards because (row+1), with no col change
           *[ 0,-1] would add towards the left because (col - 1), with no row change
           */
-    }
-        private void addAllWords(){
 
+        private void addAllWords(){
+          boolean added= false;
+          int tries = 0;
+          Random randword= new Random()% wordsToAdd.length();
+          String randwordy= wordsToAdd.get(randword);
+          int rowIncrement = new Random()%3 -1;
+          int colIncrement = new Random() % 3-1;
+          while (added==false || tries<data.length()*data[0].length()){
+            int r = new Random()%data.length();
+            int c = new Random()% data[0].length();
+          added=addWord(randwordy,r, c, rowIncrement, colIncrement);
+          tries++;
+          if (added){
+        this.addWord(randwordy,r,c,rowIncrement,colIncrement);
+        wordsToAdd.remove(randwordy);
+        wordsAdded.add(randwordy);
+      }
         }
   }
+}
