@@ -6,6 +6,7 @@ public class WordSearch{
     private Random randgen;
     private ArrayList<String> wordsToAdd;
     private ArrayList<String> wordsAdded;
+
     public WordSearch(int rows,int cols, String fileName){
       data= new char[rows][cols];
       randgen= new Random();
@@ -16,29 +17,28 @@ public class WordSearch{
         String word= in.next();
         wordsToAdd.add(word);
       }
+      addAllWords();
     }catch(FileNotFoundException e){
   System.out.println("File not found: " + fileName);
   //e.printSta
   System.exit(1);
-  addAllWords();
 }
 }
   public WordSearch (int rows, int cols, String fileName, int randSeed){
     data= new char[rows][cols];
     seed=randSeed;
       try{
-        File f = new File(fileName);//can combine
-        Scanner in = new Scanner(f);//into one line
+        Scanner in = new Scanner(new File(fileName));//into one line
       while (in.hasNext()){
         String word= in.next();
         wordsToAdd.add(word);
       }
+      addAllWords();
   }catch(FileNotFoundException e){
   System.out.println("File not found: " + fileName);
   //e.printSta
   System.exit(1);
   }
-    addAllWords();
     }
 
   public String toString(){
@@ -93,16 +93,21 @@ public class WordSearch{
           *[ 0,-1] would add towards the left because (col - 1), with no row change
           */
 
-        private void addAllWords(){
+      private void addAllWords(){
           boolean added= false;
           int tries = 0;
-          Random randword= new Random()% wordsToAdd.length();
-          String randwordy= wordsToAdd.get(randword);
-          int rowIncrement = new Random()%3 -1;
-          int colIncrement = new Random() % 3-1;
-          while (added==false || tries<data.length()*data[0].length()){
-            int r = new Random()%data.length();
-            int c = new Random()% data[0].length();
+          Random randword= new Random();
+          int index = randword.nextInt()% wordsToAdd.size();
+          String randwordy= wordsToAdd.get(index);
+          Random rowly = new Random();
+          int rowIncrement= rowly.nextInt()%3 -1;
+          Random colly = new Random();
+          int colIncrement= colly.nextInt()%3-1;
+          while (added==false || tries<data.length*data[0].length){
+            Random ry = new Random();
+            int r = ry.nextInt()%data.length;
+            Random cy = new Random();
+            int c = cy.nextInt()% data[0].length;
           added=addWord(randwordy,r, c, rowIncrement, colIncrement);
           tries++;
           if (added){
