@@ -7,10 +7,11 @@ public class WordSearch{
     private ArrayList<String> wordsToAdd;
     private ArrayList<String> wordsAdded;
 
-public WordSearch(int rows,int cols, String fileName){
+public WordSearch(int rows,int cols, String fileName, int Randseed, boolean key){
       data= new char[rows][cols];
+      if (seed==null){
       Random seedgen= new Random();
-      int seed= seedgen.nextInt();
+      int seed= seedgen.nextInt();}
       randgen= new Random(seed);
       try{
         File f = new File(fileName);//can combine
@@ -24,6 +25,9 @@ public WordSearch(int rows,int cols, String fileName){
   System.out.println("File not found: " + fileName);
   //e.printSta
   System.exit(1);
+}
+if(!key){
+  fillinletters();
 }
 }
   public WordSearch (int rows, int cols, String fileName, int randSeed){
@@ -110,4 +114,24 @@ public WordSearch(int rows,int cols, String fileName){
       }
         }
   }
+public static void main(String[]args){
+  if (args.length<3) System.out.println("More parameters needed.");
+  else{
+    if(args.length==3){try{
+      Wordsearch a= new WordSearch(args[0],args[1],args[2],null, "no");
+      System.out.println(a);}
+      catch{
+
+      }
+    }
+    if (args.length==4){
+      WordSearch a= new WordSearch(args[0],args[1],args[2],args[3],"no");
+      System.out.println(a);
+    }
+    if (args.length>4){
+      WordSearch a = new WordSearch(args[0],args[1],args[2],args[3],args[4]);
+      System.out.println(a);
+    }
+  }
+}
 }
