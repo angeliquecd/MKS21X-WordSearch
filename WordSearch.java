@@ -10,12 +10,15 @@ public class WordSearch{
     public WordSearch(int rows,int cols, String fileName){
       data= new char[rows][cols];
       randgen= new Random();
+      seed=randgen.nextInt();
+      int i =0;
       try{
         File f = new File(fileName);//can combine
         Scanner in = new Scanner(f);//into one line
-      while (in.hasNext()){
-        String word= in.next();
+      while (in.hasNext){
+        String word= in.nextLine();
         wordsToAdd.add(word);
+        i++;
       }
       addAllWords();
     }catch(FileNotFoundException e){
@@ -67,7 +70,7 @@ public class WordSearch{
      *        false when: the word doesn't fit, OR  rowchange and colchange are both 0,
      *        OR there are overlapping letters that do not match
      */
-    private boolean addWord(String word, int r, int c, int rowIncrement, int colIncrement){
+    public boolean addWord(String word, int r, int c, int rowIncrement, int colIncrement){
       boolean therey= true;
       if(
       (r+word.length()>data.length && rowIncrement>0) || (r-word.length()<0 && rowIncrement<0)
@@ -93,7 +96,7 @@ public class WordSearch{
           *[ 0,-1] would add towards the left because (col - 1), with no row change
           */
 
-      private void addAllWords(){
+      public void addAllWords(){
           boolean added= false;
           int tries = 0;
           Random randword= new Random();
