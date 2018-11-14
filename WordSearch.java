@@ -42,9 +42,7 @@ if(!key){
       }
       addAllWords();
   }catch(FileNotFoundException e){
-  System.out.println("File not found: " + fileName);
-  //e.printSta
-  System.exit(1);
+
   }
     }
 
@@ -114,24 +112,43 @@ if(!key){
       }
         }
   }
-public static void main(String[]args){
-  if (args.length<3) System.out.println("More parameters needed.");
-  else{
-    if(args.length==3){try{
-      Wordsearch a= new WordSearch(args[0],args[1],args[2],null, "no");
-      System.out.println(a);}
-      catch{
+  public void fillinletters(){
+    for (int a =0;a<data.length;a++){
+      for (int b=0;b<data[0].length;b++){
+        if (!data[a][b]){
 
+        }
       }
     }
-    if (args.length==4){
-      WordSearch a= new WordSearch(args[0],args[1],args[2],args[3],"no");
-      System.out.println(a);
-    }
+  }
+public static void main(String[]args){
+  if (args.length<3) System.out.println("More parameters needed.");
+  if(args.length>=3){
+      try{
+      int rowbuilder= Integer.parseInt(args[0]);
+      int colbuilder= Integer.parseInt(args[1]);
+      String filename= args[2];
+      File f = new file(filename);
+    int seed = null;
+    boolean key = false;
+  }
+      catch (FileNotFoundException e){
+        System.out.println("File not found: " + fileName);
+        System.exit(1);
+      }
+    if (args.length>3){
+      try{
+        seed = args[3];
+      }
     if (args.length>4){
+      try{
+        if(args[4].equals("key")){
+          key = true;
+        }
+      }}}
       WordSearch a = new WordSearch(args[0],args[1],args[2],args[3],args[4]);
       System.out.println(a);
-    }
-  }
+
+}
 }
 }
