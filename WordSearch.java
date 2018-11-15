@@ -133,22 +133,31 @@ public static void main(String[]args){
     boolean key = false;
   }
       catch (FileNotFoundException e){
-        System.out.println("File not found: " + fileName);
+        printdirections();
         System.exit(1);
       }
     if (args.length>3){
       try{
-        seed = args[3];
+        seed = Integer.parseInt(args[3]);
       }
+	catch (IllegalArgumentException e){
+ 		printdirections();
+		System.exit(1);}
     if (args.length>4){
       try{
         if(args[4].equals("key")){
           key = true;
         }
-      }}}
-      WordSearch a = new WordSearch(args[0],args[1],args[2],args[3],args[4]);
+      }
+	catch (IllegalArgumentException e){
+	printdirections();
+	System.exit(1);
+	}}}
+      WordSearch a = new WordSearch(rowbuilder,colbuilder,filename,seed,key);
       System.out.println(a);
-
 }
+}
+public static void printdirections(){
+System.out.println("To start your program, input at least a number of rows, a number of columns and a file name in that order. On top of that you may input a seed and whether or not you want an answer key (If so mark: key), also in that order.");
 }
 }
