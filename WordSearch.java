@@ -10,9 +10,9 @@ public class WordSearch{
 public WordSearch(int rows,int cols, String fileName, int Randseed, boolean key){
       data= new char[rows][cols];
 	clear();
-      if (seed.equals(null)){
+      if (seed<0){
       	Random seedgen= new Random();
-      	int seed= seedgen.nextInt();}
+      	int seed= seedgen.nextInt()%1000;}
       randgen= new Random(seed);
        File f = new File(fileName);//can combine
        Scanner in = new Scanner(f);//into one line
@@ -117,14 +117,14 @@ System.exit(1);}
       int colbuilder= Integer.parseInt(args[1]);
       String filename= args[2];
       File f = new File(filename);
-    int seed = null;
+    int seed = -10;
     boolean key = false;
      WordSearch a = new WordSearch(rowbuilder,colbuilder,filename,seed,key);
    System.out.println(a);
   }
-      catch (FileNotFoundException e){
+     /* catch (FileNotFoundException e){
         printdirections();
-        System.exit(1);}
+        System.exit(1);}*/
 catch (IllegalArgumentException e){
  		printdirections();
 		System.exit(1);}
@@ -144,9 +144,9 @@ catch (IllegalArgumentException e){
 	catch (IllegalArgumentException e){
  		printdirections();
 		System.exit(1);}
-   	catch (FileNotFoundException e){
+   	/*catch (FileNotFoundException e){
         printdirections();
-        System.exit(1);}
+        System.exit(1);}*/
 }
 
     if (args.length==5){
@@ -162,9 +162,9 @@ boolean key = false;
          WordSearch a = new WordSearch(rowbuilder,colbuilder,filename,seed,key);
    	System.out.println(a);
       }
-	catch (FileNotFoundException e){
+	/*catch (FileNotFoundException e){
         printdirections();
-        System.exit(1);}
+        System.exit(1);}*/
 	catch (IllegalArgumentException e){
 	printdirections();
 	System.exit(1);}
