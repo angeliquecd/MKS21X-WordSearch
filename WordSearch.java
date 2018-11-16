@@ -7,43 +7,29 @@ public class WordSearch{
     private ArrayList<String> wordsToAdd;
     private ArrayList<String> wordsAdded;
 
-    public WordSearch(int rows,int cols, String fileName){
+public WordSearch(int rows,int cols, String fileName, int Randseed, boolean key){
       data= new char[rows][cols];
-      randgen= new Random();
-      seed=randgen.nextInt();
-      int i =0;
-      try{
+      clear();
+      if (seed==null){
+      Random seedgen= new Random();
+      int seed= seedgen.nextInt();
+    }
+    else{
+      int seed = Randseed;
+    }
+      randgen= new Random(seed);
         File f = new File(fileName);//can combine
         Scanner in = new Scanner(f);//into one line
-      while (in.hasNext){
+        while (in.hasNext){
         String word= in.nextLine();
         wordsToAdd.add(word);
         i++;
       }
       addAllWords();
-    }catch(FileNotFoundException e){
-  System.out.println("File not found: " + fileName);
-  //e.printSta
-  System.exit(1);
+if(!key){
+  fillinletters();
 }
-}
-  public WordSearch (int rows, int cols, String fileName, int randSeed){
-    data= new char[rows][cols];
-    seed=randSeed;
-      try{
-        Scanner in = new Scanner(new File(fileName));//into one line
-      while (in.hasNext()){
-        String word= in.next();
-        wordsToAdd.add(word);
-      }
-      addAllWords();
-  }catch(FileNotFoundException e){
-  System.out.println("File not found: " + fileName);
-  //e.printSta
-  System.exit(1);
-  }
-    }
-
+}3
   public String toString(){
       String puzzle="";
       for (int a =0;a<data.length;a++){
@@ -53,7 +39,6 @@ public class WordSearch{
         }
         puzzle+="|\n";
       }
-
       puzzle+= "Words: "+wordsAdded;
     return puzzle;
         }
@@ -70,7 +55,8 @@ public class WordSearch{
      *        false when: the word doesn't fit, OR  rowchange and colchange are both 0,
      *        OR there are overlapping letters that do not match
      */
-    public boolean addWord(String word, int r, int c, int rowIncrement, int colIncrement){
+    public boolean addWord(String word, int r, int c,
+    int rowIncrement, int colIncrement){
       boolean therey= true;
       if(
       (r+word.length()>data.length && rowIncrement>0) || (r-word.length()<0 && rowIncrement<0)
@@ -90,34 +76,80 @@ public class WordSearch{
 }
       return true;
     }
-      /*[rowIncrement,colIncrement] examples:
-          *[-1,1] would add up and the right because (row -1 each time, col + 1 each time)
-          *[ 1,0] would add downwards because (row+1), with no col change
-          *[ 0,-1] would add towards the left because (col - 1), with no row change
-          */
 
       public void addAllWords(){
           boolean added= false;
           int tries = 0;
-          Random randword= new Random();
-          int index = randword.nextInt()% wordsToAdd.size();
+          int index = randgen.nextInt()% wordsToAdd.size();
           String randwordy= wordsToAdd.get(index);
-          Random rowly = new Random();
-          int rowIncrement= rowly.nextInt()%3 -1;
-          Random colly = new Random();
-          int colIncrement= colly.nextInt()%3-1;
+          int rowIncrement= randgen.nextInt()%3 -1;
+          int colIncrement= randgen.nextInt()%3-1;
           while (added==false || tries<data.length*data[0].length){
-            Random ry = new Random();
-            int r = ry.nextInt()%data.length;
-            Random cy = new Random();
-            int c = cy.nextInt()% data[0].length;
+            int r = randgen.nextInt()%data.length;
+            int c = randgen.nextInt()% data[0].length;
           added=addWord(randwordy,r, c, rowIncrement, colIncrement);
           tries++;
           if (added){
-        this.addWord(randwordy,r,c,rowIncrement,colIncrement);
+        addWord(randwordy,r,c,rowIncrement,colIncrement);
         wordsToAdd.remove(randwordy);
         wordsAdded.add(randwordy);
       }
         }
   }
+  public void fillinletters(){
+    for (int a =0;a<data.length;a++){
+      for (int b=0;b<data[0].length;b++){
+        if (data[a][b]=='_'){
+          int lettergen= 'A'+randgen.nextInt()%26;
+          data[a][b]='A'+ lettergen;
+        }
+      }
+    }
+  }
+public static void main(String[]args){
+  if (args.length<3) {
+    System.out.println("More parameters needed.");
+    System.exit(1);}
+  if(args.length>=3){
+      try{
+          int rowbuilder= Integer.parseInt(args[0]);
+          int colbuilder= Integer.parseInt(args[1]);
+          String filename= args[2];
+          File f = new file(filename);
+          int seed = null;
+          boolean key = false;
+        }
+      catch (FileNotFoundException e){
+          System.out.println("File not found: " + fileName);
+          System.exit(1);
+        }
+    if (args.length>3){
+          try{
+              seed = Integer.parseInt(args[3]);
+              }
+          catch (IllegalArgumentException f){
+                System.exit(1);
+              }
+    if (args.length>4){
+          try{
+            if(args[4].equals("key")){
+              key = true;
+            }}
+        catch (IllegalArgumentException g){
+          System.exit(1);
+          }
+      }
+    }
+  }
+      WordSearch a = new WordSearch(rowbuilder,colbuilder,filename,seed,key);
+      System.out.println(a);
+
+}
+public void clear(){
+  for (int i =0;i<data.length;i++){
+    for (int a =0;a<data[i].length;a++){
+      data[i][a]='_';
+    }}
+}
+
 }
