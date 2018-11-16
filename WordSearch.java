@@ -20,7 +20,7 @@ public WordSearch(int rows,int cols, String fileName, int Randseed, boolean key)
        File f = new File(fileName);//can combine
        Scanner in = new Scanner(f);//into one line
       while (in.hasNext()){
-        String word= in.next();
+        String word= in.next().toUpperCase();
         wordsToAdd.add(word);
       }
 	addAllWords();
@@ -66,18 +66,28 @@ public void clear(){
 }
       return true;
     }
-
+public void printarray(ArrayList<String> ary){
+  String value= "";
+  for (int a=0;a<ary.size();a++){
+      value+=ary.get(a)+",";
+    }
+  System.out.println(value+" end.");
+}
 public void addAllWords(){
-      boolean added= false;
-      int tries = 0;
+  int limit= wordsToAdd.size();
+      for (int a = 0; a<limit;a++){
+        printarray(wordsToAdd);
+        boolean added= false;
+        int tries = 0;
       int index = Math.abs(randgen.nextInt()% wordsToAdd.size());
       String randwordy= wordsToAdd.get(index);
+      System.out.println(randwordy);
       int rowIncrement= 0;
       int colIncrement=0;
       while ((rowIncrement==0 && colIncrement==0)){
       rowIncrement= randgen.nextInt()%2;
       colIncrement= randgen.nextInt()%2;}
-      while (added==false || tries<1000){
+      while (!added && tries<10000){
             int r = Math.abs(randgen.nextInt()%data.length);
             int c = Math.abs(randgen.nextInt()% data[0].length);
           added=addWord(randwordy,r, c, rowIncrement, colIncrement);
@@ -85,16 +95,18 @@ public void addAllWords(){
           if (added){
         addWord(randwordy,r,c,rowIncrement,colIncrement);
         wordsToAdd.remove(randwordy);
-        wordsAdded.add(randwordy);
-      }
+        wordsAdded.add(randwordy);}
+        printarray(wordsToAdd);
+        printarray(wordsAdded);
         }
+      }
   }
   public void fillinletters(){
     for (int a =0;a<data.length;a++){
       for (int b=0;b<data[0].length;b++){
         if (data[a][b]==' '){
-		String randos = 'A'+randgen.nextInt()%26+"";
-		data[a][b]=randos.charAt(0);
+		char randos = (char)('A'+Math.abs(randgen.nextInt()%26));
+		data[a][b]=randos;
         }
       }
     }
