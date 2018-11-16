@@ -114,7 +114,7 @@ public void addAllWords(){
 public static void main(String[]args){
   try{
   if (args.length<3) {
-printdirections();
+printdirections("Not enough arguments");
 System.exit(1);}
   if(args.length==3){
       int rowbuilder= Integer.parseInt(args[0]);
@@ -149,24 +149,22 @@ boolean key = false;
    	System.out.println(a);
   }
 }
-/*  catch(IllegalArgumentException f){
-        printdirections();
+catch(IllegalArgumentException f){
+        printdirections("Illegal Argument");
         System.exit(1);}
 catch (NullPointerException c){
-  printdirections();
+  printdirections("Null Pointer");
   System.exit(1);
-}*/
-catch(NumberFormatException a){
-        System.out.println("Number format exception.");
-      printdirections();
-      System.exit(1);}
+}
+/*catch(NumberFormatException a){
+      printdirections("Number Format Exception");
+      System.exit(1);}*/
 catch (FileNotFoundException b){
-          System.out.println("File not found");
-        printdirections("Numberexception");
+        printdirections("File not Found");
         System.exit(1);}
 }
-public static void printdirections(){
-System.out.println(" You've encountered an error! \n To start your program, input at least a number of rows, \n a number of columns and a file name in that order. \n On top of that you may input a seed (must be positive) \n and whether or not you want an answer key \n (If so mark: key), also in that order.");
+public static void printdirections(String type){
+System.out.println(" You've encountered an error! ("+ type+") \n To start your program, input at least a number of rows, \n a number of columns and a file name in that order. \n On top of that you may input a seed (must be positive) \n and whether or not you want an answer key \n (If so mark: key), also in that order.");
 }
 
 }
