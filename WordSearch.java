@@ -162,7 +162,7 @@ catch(NumberFormatException a){
       System.exit(1);}
 catch (FileNotFoundException b){
           System.out.println("File not found");
-        printdirections();
+        printdirections("Numberexception");
         System.exit(1);}
 }
 public static void printdirections(){
