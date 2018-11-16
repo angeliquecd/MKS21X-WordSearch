@@ -9,17 +9,16 @@ public class WordSearch{
 
 public WordSearch(int rows,int cols, String fileName, int Randseed, boolean key){
       data= new char[rows][cols];
-	clear();
+	     clear();
       if (seed<0){
       	Random seedgen= new Random();
-      	int seed= seedgen.nextInt()%1000;}
+      	int seed= Math.abs(seedgen.nextInt()%1000);}
       randgen= new Random(seed);
        File f = new File(fileName);//can combine
        Scanner in = new Scanner(f);//into one line
       while (in.hasNext()){
         String word= in.next();
         wordsToAdd.add(word);
-        i++;
       }
 	addAllWords();
 if(!key){
@@ -44,31 +43,17 @@ public void clear(){
       puzzle+= "Words: "+wordsAdded;
     return puzzle;
         }
-    /*Attempts to add a given word to the specified position of the WordGrid.
-     *The word is added in the direction rowIncrement,colIncrement
-     *Words must have a corresponding letter to match any letters that it overlaps.
-     *
-     *@param word is any text to be added to the word grid.
-     *@param row is the vertical locaiton of where you want the word to start.
-     *@param col is the horizontal location of where you want the word to start.
-     *@param rowIncrement is -1,0, or 1 and represents the displacement of each letter in the row direction
-     *@param colIncrement is -1,0, or 1 and represents the displacement of each letter in the col direction
-     *@return true when: the word is added successfully.
-     *        false when: the word doesn't fit, OR  rowchange and colchange are both 0,
-     *        OR there are overlapping letters that do not match
-     */
-    public boolean addWord(String word, int r, int c,
-    int rowIncrement, int colIncrement){
+    public boolean addWord(String word, int r, int c, int rowIncrement, int colIncrement){
       boolean therey= true;
       if(
       (r+word.length()>data.length && rowIncrement>0) || (r-word.length()<0 && rowIncrement<0)
       ||(c+word.length()>data.length && colIncrement> 0) || (c-word.length()<0 && colIncrement<0))
       return false;
       for (int a=0;a<word.length();a++){
-          if (data[r+a*rowIncrement][c+a*colIncrement]!='_'&&
+          if (data[r+a*rowIncrement][c+a*colIncrement]!=' '&&
           data[r+a*rowIncrement][c+a*colIncrement]!=word.charAt(a)){
             for(int b=a-1;b>-1;b-=1){
-              data[r+b*rowIncrement][c+a*colIncrement]='_';
+              data[r+b*rowIncrement][c+a*colIncrement]=' ';
             }
             return false;
           }
@@ -84,9 +69,12 @@ public void clear(){
           int tries = 0;
           int index = randgen.nextInt()% wordsToAdd.size();
           String randwordy= wordsToAdd.get(index);
-          int rowIncrement= randgen.nextInt()%3 -1;
-          int colIncrement= randgen.nextInt()%3-1;
-          while (added==false || tries<data.length*data[0].length){
+          int rowIncrement= 0;
+          int colIncrement=0;
+          while ((rowIncrement==0 && colIncrement==0)){
+          rowIncrement= randgen.nextInt()%3 -1;
+          colIncrement= randgen.nextInt()%3-1;}
+          while (added==false || tries<1000){
             int r = randgen.nextInt()%data.length;
             int c = randgen.nextInt()% data[0].length;
           added=addWord(randwordy,r, c, rowIncrement, colIncrement);
@@ -123,10 +111,7 @@ System.exit(1);}
      WordSearch a = new WordSearch(rowbuilder,colbuilder,filename,seed,key);
    System.out.println(a);
   }
-     /* catch (FileNotFoundException e){
-        printdirections();
-        System.exit(1);}*/
-catch (IllegalArgumentException e){
+catch (NumberFormatException e){
  		printdirections();
 		System.exit(1);}
 }
@@ -138,11 +123,16 @@ catch (IllegalArgumentException e){
       String filename= args[2];
       File f = new File(filename);
     boolean key = false;
-        int seed = Integer.parseInt(args[3]);
+    int seed = Integer.parseInt(args[3]);
+    if (seed<0){
+      throw new IllegalArgumentException;}
  WordSearch a = new WordSearch(rowbuilder,colbuilder,filename,seed,key);
    System.out.println(a);
       }
-	catch (IllegalArgumentException e){
+    catch(IllegalArgumentException z){
+      printdirections();
+      System.exit(1);}
+	catch (NumberFormatException e){
  		printdirections();
 		System.exit(1);}
    	/*catch (FileNotFoundException e){
@@ -157,22 +147,26 @@ catch (IllegalArgumentException e){
       String filename= args[2];
       File f = new File(filename);;
         int seed = Integer.parseInt(args[3]);
+        if (seed<0){
+          throw new IllegalArgumentException;}
 boolean key = false;
         if(args[4].equals("key")){
           key = true;}
          WordSearch a = new WordSearch(rowbuilder,colbuilder,filename,seed,key);
    	System.out.println(a);
       }
-	/*catch (FileNotFoundException e){
+  catch(IllegalArgumentException z){
         printdirections();
-        System.exit(1);}*/
-	catch (IllegalArgumentException e){
+        System.exit(1);}
+	catch (NumberFormatException e){
 	printdirections();
 	System.exit(1);}
 }
 }
 public static void printdirections(){
-System.out.println("To start your program, input at least a number of rows, a number of columns and a file name in that order. On top of that you may input a seed and whether or not you want an answer key (If so mark: key), also in that order.");
+System.out.println("To start your program, input at least a number of rows,
+ a number of columns and a file name in that order. On top of that you may input
+  a seed (must be positive) and whether or not you want an answer key (If so mark: key), also in that order.");
 }
 
 }
