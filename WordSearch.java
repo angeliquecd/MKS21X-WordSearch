@@ -51,21 +51,26 @@ public void clear(){
       if(
       (r+word.length()>data.length && rowIncrement>0) || (r-word.length()<0 && rowIncrement<0)
       ||(c+word.length()>data.length && colIncrement> 0) || (c-word.length()<0 && colIncrement<0))
+      //too long
       return false;
+      else{
+        if (doesitfit(word,r,c, rowIncrement, colIncrement)){//collides with other letters
       for (int a=0;a<word.length();a++){
-          if (data[r+a*rowIncrement][c+a*colIncrement]!=' '&&
-          data[r+a*rowIncrement][c+a*colIncrement]!=word.charAt(a)){
-            for(int b=a-1;b>-1;b-=1){
-              data[r+b*rowIncrement][c+a*colIncrement]=' ';
-            }
-            return false;
-          }
-            else{
           data[r+a*rowIncrement][c+a*colIncrement]=word.charAt(a);
         }
-}
       return true;
     }
+  else return false;
+}
+}
+private boolean doesitfit(String word, int r, int c, int rowIncrement, int colIncrement){
+  for (int a = 0;a<word.length();a++){
+    char space= data[r+a*rowIncrement][c+a*colIncrement];
+    if (!(word.charAt(a)==space|| space==' ')){
+      return false;
+  }}
+  return true;
+}
 public void printarray(ArrayList<String> ary){
   String value= "";
   for (int a=0;a<ary.size();a++){
