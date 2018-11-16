@@ -12,9 +12,10 @@ public WordSearch(int rows,int cols, String fileName, int Randseed, boolean key)
 	     clear();
        wordsToAdd= new ArrayList<String>();
        wordsAdded= new ArrayList<String>();
-      if (seed<0){
+      if (Randseed<0){
       	Random seedgen= new Random();
-      	int seed= Math.abs(seedgen.nextInt()%1000);}
+      	seed= Math.abs(seedgen.nextInt()%1000);}
+      else seed= Randseed;
       randgen= new Random(seed);
        File f = new File(fileName);//can combine
        Scanner in = new Scanner(f);//into one line
@@ -42,7 +43,7 @@ public void clear(){
         }
         puzzle+="|\n";
       }
-      puzzle+= "Words: "+wordsAdded;
+      puzzle+= "Words: "+wordsAdded+"\n"+"Seed: "+this.seed;
     return puzzle;
         }
     public boolean addWord(String word, int r, int c, int rowIncrement, int colIncrement){
@@ -66,17 +67,17 @@ public void clear(){
       return true;
     }
 
-      public void addAllWords(){
-          boolean added= false;
-          int tries = 0;
-          int index = Math.abs(randgen.nextInt()% wordsToAdd.size());
-          String randwordy= wordsToAdd.get(index);
-          int rowIncrement= 0;
-          int colIncrement=0;
-          while ((rowIncrement==0 && colIncrement==0)){
-          rowIncrement= randgen.nextInt()%2;
-          colIncrement= randgen.nextInt()%2;}
-          while (added==false || tries<1000){
+public void addAllWords(){
+      boolean added= false;
+      int tries = 0;
+      int index = Math.abs(randgen.nextInt()% wordsToAdd.size());
+      String randwordy= wordsToAdd.get(index);
+      int rowIncrement= 0;
+      int colIncrement=0;
+      while ((rowIncrement==0 && colIncrement==0)){
+      rowIncrement= randgen.nextInt()%2;
+      colIncrement= randgen.nextInt()%2;}
+      while (added==false || tries<1000){
             int r = Math.abs(randgen.nextInt()%data.length);
             int c = Math.abs(randgen.nextInt()% data[0].length);
           added=addWord(randwordy,r, c, rowIncrement, colIncrement);
