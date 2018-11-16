@@ -7,9 +7,11 @@ public class WordSearch{
     private ArrayList<String> wordsToAdd;
     private ArrayList<String> wordsAdded;
 
-public WordSearch(int rows,int cols, String fileName, int Randseed, boolean key){
+public WordSearch(int rows,int cols, String fileName, int Randseed, boolean key) throws FileNotFoundException{
       data= new char[rows][cols];
 	     clear();
+       wordsToAdd= new ArrayList<String>();
+       wordsAdded= new ArrayList<String>();
       if (seed<0){
       	Random seedgen= new Random();
       	int seed= Math.abs(seedgen.nextInt()%1000);}
@@ -67,16 +69,16 @@ public void clear(){
       public void addAllWords(){
           boolean added= false;
           int tries = 0;
-          int index = randgen.nextInt()% wordsToAdd.size();
+          int index = Math.abs(randgen.nextInt()% wordsToAdd.size());
           String randwordy= wordsToAdd.get(index);
           int rowIncrement= 0;
           int colIncrement=0;
           while ((rowIncrement==0 && colIncrement==0)){
-          rowIncrement= randgen.nextInt()%3 -1;
-          colIncrement= randgen.nextInt()%3-1;}
+          rowIncrement= randgen.nextInt()%2;
+          colIncrement= randgen.nextInt()%2;}
           while (added==false || tries<1000){
-            int r = randgen.nextInt()%data.length;
-            int c = randgen.nextInt()% data[0].length;
+            int r = Math.abs(randgen.nextInt()%data.length);
+            int c = Math.abs(randgen.nextInt()% data[0].length);
           added=addWord(randwordy,r, c, rowIncrement, colIncrement);
           tries++;
           if (added){
@@ -97,76 +99,61 @@ public void clear(){
     }
   }
 public static void main(String[]args){
+  try{
   if (args.length<3) {
 printdirections();
 System.exit(1);}
   if(args.length==3){
-      try{
       int rowbuilder= Integer.parseInt(args[0]);
       int colbuilder= Integer.parseInt(args[1]);
       String filename= args[2];
-      File f = new File(filename);
     int seed = -10;
     boolean key = false;
      WordSearch a = new WordSearch(rowbuilder,colbuilder,filename,seed,key);
    System.out.println(a);
-  }
-catch (NumberFormatException e){
- 		printdirections();
-		System.exit(1);}
-}
-
+     }
    if (args.length==4){
-      try{
  	int rowbuilder= Integer.parseInt(args[0]);
-      int colbuilder= Integer.parseInt(args[1]);
+    int colbuilder= Integer.parseInt(args[1]);
       String filename= args[2];
-      File f = new File(filename);
     boolean key = false;
     int seed = Integer.parseInt(args[3]);
     if (seed<0){
-      throw new IllegalArgumentException;}
+      throw new IllegalArgumentException();}
  WordSearch a = new WordSearch(rowbuilder,colbuilder,filename,seed,key);
-   System.out.println(a);
-      }
-    catch(IllegalArgumentException z){
-      printdirections();
-      System.exit(1);}
-	catch (NumberFormatException e){
- 		printdirections();
-		System.exit(1);}
-   	/*catch (FileNotFoundException e){
-        printdirections();
-        System.exit(1);}*/
-}
-
+   System.out.println(a);}
     if (args.length==5){
-      try{
  	int rowbuilder= Integer.parseInt(args[0]);
       int colbuilder= Integer.parseInt(args[1]);
       String filename= args[2];
-      File f = new File(filename);;
         int seed = Integer.parseInt(args[3]);
         if (seed<0){
-          throw new IllegalArgumentException;}
+          throw new IllegalArgumentException();}
 boolean key = false;
         if(args[4].equals("key")){
           key = true;}
          WordSearch a = new WordSearch(rowbuilder,colbuilder,filename,seed,key);
    	System.out.println(a);
-      }
-  catch(IllegalArgumentException z){
+  }
+}
+/*  catch(IllegalArgumentException f){
         printdirections();
         System.exit(1);}
-	catch (NumberFormatException e){
-	printdirections();
-	System.exit(1);}
-}
+catch (NullPointerException c){
+  printdirections();
+  System.exit(1);
+}*/
+catch(NumberFormatException a){
+        System.out.println("Number format exception.");
+      printdirections();
+      System.exit(1);}
+catch (FileNotFoundException b){
+          System.out.println("File not found");
+        printdirections();
+        System.exit(1);}
 }
 public static void printdirections(){
-System.out.println("To start your program, input at least a number of rows,
- a number of columns and a file name in that order. On top of that you may input
-  a seed (must be positive) and whether or not you want an answer key (If so mark: key), also in that order.");
+System.out.println(" You've encountered an error! \n To start your program, input at least a number of rows, \n a number of columns and a file name in that order. \n On top of that you may input a seed (must be positive) \n and whether or not you want an answer key \n (If so mark: key), also in that order.");
 }
 
 }
