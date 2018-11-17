@@ -14,7 +14,7 @@ public WordSearch(int rows,int cols, String fileName, int Randseed, boolean key)
        wordsAdded= new ArrayList<String>();
       if (Randseed<0){
       	Random seedgen= new Random();
-      	seed= Math.abs(seedgen.nextInt()%1000);}
+      	seed= Math.abs(seedgen.nextInt()%10001);}
       else seed= Randseed;
       randgen= new Random(seed);
        File f = new File(fileName);//can combine
@@ -71,22 +71,23 @@ private boolean doesitfit(String word, int r, int c, int rowIncrement, int colIn
   }}
   return true;
 }
-public void printarray(ArrayList<String> ary){
+//For debugging purposes
+/*public void printarray(ArrayList<String> ary){
   String value= "";
   for (int a=0;a<ary.size();a++){
       value+=ary.get(a)+",";
     }
   System.out.println(value+" end.");
-}
+}*/
 public void addAllWords(){
   int limit= wordsToAdd.size();
       for (int a = 0; a<limit;a++){
-        printarray(wordsToAdd);
+        //printarray(wordsToAdd);
         boolean added= false;
         int tries = 0;
       int index = Math.abs(randgen.nextInt()% wordsToAdd.size());
       String randwordy= wordsToAdd.get(index);
-      System.out.println(randwordy);
+    //  System.out.println(randwordy);
       int rowIncrement= 0;
       int colIncrement=0;
       while ((rowIncrement==0 && colIncrement==0)){
@@ -101,8 +102,8 @@ public void addAllWords(){
         addWord(randwordy,r,c,rowIncrement,colIncrement);
         wordsToAdd.remove(randwordy);
         wordsAdded.add(randwordy);}
-        printarray(wordsToAdd);
-        printarray(wordsAdded);
+      //  printarray(wordsToAdd);
+        //printarray(wordsAdded);
         }
       }
   }
@@ -119,7 +120,7 @@ public void addAllWords(){
 public static void main(String[]args){
   try{
   if (args.length<3) {
-printdirections("Not enough arguments");
+printdirections("Need more information.");
 System.exit(1);}
   if(args.length==3){
       int rowbuilder= Integer.parseInt(args[0]);
@@ -136,7 +137,7 @@ System.exit(1);}
       String filename= args[2];
     boolean key = false;
     int seed = Integer.parseInt(args[3]);
-    if (seed<0){
+    if (seed<0 || seed>10000){
       throw new IllegalArgumentException();}
  WordSearch a = new WordSearch(rowbuilder,colbuilder,filename,seed,key);
    System.out.println(a);}
@@ -155,20 +156,18 @@ boolean key = false;
   }
 }
 catch(IllegalArgumentException f){
-        printdirections("Illegal Argument");
+        printdirections("Illegal argument");
         System.exit(1);}
 catch (NullPointerException c){
-  printdirections("Null Pointer");
+  printdirections("Null pointer");
   System.exit(1);
 }
-/*catch(NumberFormatException a){
-      printdirections("Number Format Exception");
-      System.exit(1);}*/
-catch (FileNotFoundException b){
-        printdirections("File not Found");
+catch (FileNotFoundException b){//thrown in the constructor
+        printdirections("File not found");
         System.exit(1);}
 }
-public static void printdirections(String type){
+
+public static void printdirections(String type){//in case of error in the terminal
 System.out.println(" You've encountered an error! ("+ type+") \n To start your program, input at least a number of rows, \n a number of columns and a file name in that order. \n On top of that you may input a seed (must be positive) \n and whether or not you want an answer key \n (If so mark: key), also in that order.");
 }
 
